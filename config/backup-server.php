@@ -1,5 +1,6 @@
 <?php
 
+use App\Tasks\BackupServer\BackupScheduler;
 use Carbon\CarbonInterval;
 use Spatie\BackupServer\Notifications\Notifiable;
 use Spatie\BackupServer\Notifications\Notifications\BackupCompletedNotification;
@@ -13,7 +14,6 @@ use Spatie\BackupServer\Notifications\Notifications\HealthySourceFoundNotificati
 use Spatie\BackupServer\Notifications\Notifications\ServerSummaryNotification;
 use Spatie\BackupServer\Notifications\Notifications\UnhealthyDestinationFoundNotification;
 use Spatie\BackupServer\Notifications\Notifications\UnhealthySourceFoundNotification;
-use Spatie\BackupServer\Tasks\Backup\Support\BackupScheduler\DefaultBackupScheduler;
 use Spatie\BackupServer\Tasks\Cleanup\Strategies\DefaultCleanupStrategy;
 use Spatie\BackupServer\Tasks\Monitor\HealthChecks\Destination\DestinationReachable;
 use Spatie\BackupServer\Tasks\Monitor\HealthChecks\Destination\MaximumDiskCapacityUsageInPercentage;
@@ -32,7 +32,7 @@ return [
          * This class is responsible for deciding when sources should be backed up. An valid backup scheduler
          * is any class that implements `Spatie\BackupServer\Tasks\Backup\Support\BackupScheduler\BackupScheduler`.
          */
-        'scheduler' => DefaultBackupScheduler::class,
+        'scheduler' => BackupScheduler::class,
     ],
 
     'notifications' => [
