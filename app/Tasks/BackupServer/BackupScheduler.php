@@ -11,12 +11,10 @@ use Spatie\BackupServer\Tasks\Backup\Support\BackupScheduler\BackupScheduler as 
 
 class BackupScheduler implements BackupSchedulerInterface
 {
-    private readonly GeneralSettings $generalSettings;
-
     public function shouldBackupNow(Source $source): bool
     {
 
-        $backupEnabled = $this->generalSettings->backupEnabled;
+        $backupEnabled = app(GeneralSettings::class)->backupEnabled;
 
         if (! $backupEnabled) {
             return false;
