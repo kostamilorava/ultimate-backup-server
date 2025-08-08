@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Filament\Resources\LogResource\Pages;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Spatie\BackupServer\Models\BackupLogItem;
+
+class LogResource extends Resource
+{
+    protected static ?string $model = BackupLogItem::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Select::make('source_id')
+                    ->relationship('source', 'name')
+                    ->label('Source')
+                    ->disabled()
+                    ->visibleOn('view'),
+
+                Select::make('backup_id')
+                    ->relationship('backup', 'id')
+                    ->label('Backup')
+                    ->disabled()
+                    ->visibleOn('view'),
+
+                TextInput::make('task')
+                    ->disabled()
+                    ->visibleOn('view'),
+
+                TextInput::make('level')
+                    ->disabled()
+                    ->visibleOn('view'),
+
+                Textarea::make('message')
+                    ->rows(6)
+                    ->disabled()
+                    ->visibleOn('view'),
+
+                DateTimePicker::make('created_at')
+                    ->label('Created At')
+                    ->disabled()
+                    ->visibleOn('view'),
+
+                DateTimePicker::make('updated_at')
+                    ->label('Updated At')
+                    ->disabled()
+                    ->visibleOn('view'),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
+
+                TextColumn::make('source.name')
+                    ->label('Source')
+                    ->sortable(),
+
+                TextColumn::make('backup.id')
+                    ->label('Backup')
+                    ->sortable(),
+
+                TextColumn::make('task')
+                    ->sortable(),
+
+
+
+                TextColumn::make('level')
+                    ->badge()
+                    ->sortable()
+                    ->color(fn (string $state): string => match ($state) {
+                        'error' => 'danger',
+                        'info' => 'success',
+                        default => 'primary',
+                    }),
+
+
+                TextColumn::make('message')
+                    ->limit(50)
+                    ->wrap(),
+
+                TextColumn::make('created_at')
+                    ->label('Created At')
+                    ->dateTime()
+                    ->sortable(),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+            ])
+            ->bulkActions([
+                // no bulk actions for logs
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListLogs::route('/'),
+        ];
+    }
+}
