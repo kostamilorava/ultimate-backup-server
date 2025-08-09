@@ -4,8 +4,6 @@
 This project aims to resolve issue that every company / developer has - Backups. I was not able to find backup solution
 that fits all my needs, so I decided to build it myself.
 
-I am currently using this app actively, to back up multiple sources securely and want to share it with you.
-
 By its nature, project is really simple but solves complex problems. It uses one of Spatie's packages, that was paid
 some time ago, and now it's free (thanks, Spatie, for this!).
 
