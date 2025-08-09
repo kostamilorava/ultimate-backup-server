@@ -9,7 +9,7 @@ some time ago, and now it's free (thanks, Spatie, for this!).
 
 ### Requirements
 
-- rsync v3 or higher should be installed on both the source and destination of your backup
+- rsync v3 or higher should be installed on both the source and backup server
 - the source and destination server should use the `ext3` or `ext4` filesystem
 - Docker
 
@@ -25,7 +25,7 @@ see full backups in the filesystem, only changed files will take up disk space. 
 would normally. This gives you unique possibility to have for example 10 versions of backup for 300 GB that might take
 305 GB disk space.
 
-This app also provides healt checks functionality for backups and notifies you as soon as health issues are detected.
+This app also provides health checks functionality for backups and notifies you as soon as health issues are detected.
 
 ### Application Setup (local)
 
