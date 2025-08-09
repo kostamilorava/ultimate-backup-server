@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Settings\GeneralSettings;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,15 +21,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->booted(function () {
-            // Only when connection to DB is established, set configurations
-            $connected = rescue(fn () => DB::connection()->getPdo(), false, report: false);
-            if (! $connected) {
-                return;
-            }
-
-            $settings = app(GeneralSettings::class);
-
-            config()->set('backup-server.notifications.mail.to', $settings->emailToNotify);
+            // TODO@kosta: Refactor this to use bootstrappers instead of ugly approach
+            rescue(function () {
+                $settings = app(GeneralSettings::class);
+                config()->set('backup-server.notifications.mail.to', $settings->emailToNotify);
+            }, false, report: false);
         });
     }
 }
