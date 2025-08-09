@@ -10,7 +10,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Spatie\BackupServer\Models\BackupLogItem;
@@ -19,7 +18,9 @@ class LogResource extends Resource
 {
     protected static ?string $model = BackupLogItem::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-folder-open';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -81,8 +82,6 @@ class LogResource extends Resource
                 TextColumn::make('task')
                     ->sortable(),
 
-
-
                 TextColumn::make('level')
                     ->badge()
                     ->sortable()
@@ -91,7 +90,6 @@ class LogResource extends Resource
                         'info' => 'success',
                         default => 'primary',
                     }),
-
 
                 TextColumn::make('message')
                     ->limit(50)
@@ -107,10 +105,12 @@ class LogResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                // no bulk actions for logs
-            ]);
+                Tables\Actions\DeleteBulkAction::make(),
+            ])
+            ->defaultSort('id', 'desc');
     }
 
     public static function getRelations(): array

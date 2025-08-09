@@ -13,12 +13,14 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Spatie\BackupServer\Models\Backup;
-
+use Illuminate\Support\Number;
 class BackupResource extends Resource
 {
     protected static ?string $model = Backup::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+
+    protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
     {
@@ -102,11 +104,11 @@ class BackupResource extends Resource
                 TextColumn::make('size_in_kb')
                     ->label('Size')
                     ->sortable()
-                    ->formatStateUsing(fn (int $state) => static::formatSize($state)),
+                    ->formatStateUsing(fn (int $state) => Number::fileSize($state, precision: 2)),
                 TextColumn::make('real_size_in_kb')
                     ->label('Real Size')
                     ->sortable()
-                    ->formatStateUsing(fn (int $state) => static::formatSize($state)),
+                    ->formatStateUsing(fn (int $state) => Number::fileSize($state, precision: 2)),
                 TextColumn::make('completed_at')
                     ->label('Completed At')
                     ->dateTime()
@@ -128,27 +130,11 @@ class BackupResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
-    }
-
-    protected static function formatSize(int $value): string
-    {
-        $sizeInMB = $value / 1024;
-        $sizeInGB = $sizeInMB / 1024;
-
-        if ($sizeInGB >= 1) {
-            return number_format($sizeInGB, 2).' GB';
-        }
-
-        if ($sizeInMB >= 1) {
-            return number_format($sizeInMB, 2).' MB';
-        }
-
-        return $value.' KB';
+            ])
+            ->defaultSort('id', 'desc');
     }
 
     public static function getRelations(): array

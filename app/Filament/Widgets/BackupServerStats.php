@@ -15,7 +15,10 @@ class BackupServerStats extends BaseWidget
         return [
             Stat::make('Total Destinations', Destination::count()),
             Stat::make('Total Sources', Source::count()),
-            Stat::make('Running Backups', Backup::where('status', '!=', 'completed')->count()),
+            Stat::make('Running Backups', Backup::where('status', 'in_progress')->count()),
+            Stat::make('Pending Backups', Backup::where('status', 'pending')->count()),
+            Stat::make('Completed Backups', Backup::where('status', 'completed')->count()),
+            Stat::make('Failed Backups', Backup::where('status', 'failed')->count()),
         ];
     }
 }

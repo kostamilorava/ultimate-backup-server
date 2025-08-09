@@ -13,6 +13,8 @@ class ManageGeneralSettings extends SettingsPage
 
     protected static string $settings = GeneralSettings::class;
 
+    protected static ?int $navigationSort = 10;
+
     public function form(Form $form): Form
     {
         return $form
