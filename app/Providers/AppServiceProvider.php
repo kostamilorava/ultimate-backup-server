@@ -20,7 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Run after ALL providers (including Spatie) have booted
         $this->app->booted(function () {
             $settings = app(GeneralSettings::class);
 
