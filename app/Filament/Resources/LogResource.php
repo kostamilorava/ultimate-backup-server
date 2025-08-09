@@ -17,6 +17,7 @@ use Spatie\BackupServer\Models\BackupLogItem;
 class LogResource extends Resource
 {
     protected static ?string $model = BackupLogItem::class;
+    protected static ?string $label = "Logs";
 
     protected static ?string $navigationIcon = 'heroicon-o-folder-open';
 
