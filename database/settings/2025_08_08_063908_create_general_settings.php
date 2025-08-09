@@ -7,5 +7,6 @@ return new class extends SettingsMigration
     public function up(): void
     {
         $this->migrator->add('general.backupEnabled', true);
+        $this->migrator->add('general.emailToNotify', true);
     }
 };

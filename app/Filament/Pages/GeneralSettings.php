@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Settings\GeneralSettings as GeneralSettingsSetting;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
@@ -21,6 +22,10 @@ class GeneralSettings extends SettingsPage
             ->schema([
                 Toggle::make('backupEnabled')
                     ->label('Enable or disable future backup tasks')
+                    ->required(),
+
+                TextInput::make('emailToNotify')
+                    ->label('Email to notify users about backup progress')
                     ->required(),
             ]);
     }
