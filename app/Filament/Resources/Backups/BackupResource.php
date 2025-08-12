@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Backups;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Textarea;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\Backups\Pages\ListBackups;
 use App\Filament\Resources\BackupResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -18,14 +22,14 @@ class BackupResource extends Resource
 {
     protected static ?string $model = Backup::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?int $navigationSort = 0;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('status')
                     ->required()
                     ->maxLength(255),
@@ -60,7 +64,7 @@ class BackupResource extends Resource
                     ->minValue(0)
                     ->step(1),
 
-                Forms\Components\Textarea::make('rsync_summary')
+                Textarea::make('rsync_summary')
                     ->label('Rsync Summary')
                     ->rows(5)
                     ->nullable(),
@@ -128,11 +132,11 @@ class BackupResource extends Resource
                 TextColumn::make('rsync_average_transfer_speed_in_MB_per_second')
                     ->label('Avg Speed (MB/s)'),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
+            ->recordActions([
+                ViewAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ])
             ->defaultSort('id', 'desc');
     }
@@ -147,7 +151,7 @@ class BackupResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBackups::route('/'),
+            'index' => ListBackups::route('/'),
         ];
     }
 }

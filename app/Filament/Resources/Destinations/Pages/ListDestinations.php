@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\DestinationResource\Pages;
+namespace App\Filament\Resources\Destinations\Pages;
 
-use App\Filament\Resources\DestinationResource;
+use Filament\Actions\CreateAction;
+use App\Filament\Resources\Destinations\DestinationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -13,7 +14,7 @@ class ListDestinations extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

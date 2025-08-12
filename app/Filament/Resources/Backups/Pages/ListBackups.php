@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\BackupResource\Pages;
+namespace App\Filament\Resources\Backups\Pages;
 
-use App\Filament\Resources\BackupResource;
+use App\Filament\Resources\Backups\BackupResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

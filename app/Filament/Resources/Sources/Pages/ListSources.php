@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\SourceResource\Pages;
+namespace App\Filament\Resources\Sources\Pages;
 
-use App\Filament\Resources\SourceResource;
+use Filament\Actions\CreateAction;
+use App\Filament\Resources\Sources\SourceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -13,7 +14,7 @@ class ListSources extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

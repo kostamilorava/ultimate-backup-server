@@ -1,14 +1,21 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Sources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\Sources\Pages\ListSources;
+use App\Filament\Resources\Sources\Pages\CreateSource;
+use App\Filament\Resources\Sources\Pages\EditSource;
 use App\Filament\Resources\SourceResource\Pages;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
@@ -22,14 +29,14 @@ class SourceResource extends Resource
 {
     protected static ?string $model = SourceModel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('status')
                     ->default('active')
                     ->required()
@@ -190,13 +197,13 @@ class SourceResource extends Resource
                     ->query(fn (Builder $query) => $query->where('healthy', true))
                     ->label('Healthy'),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -210,9 +217,9 @@ class SourceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSources::route('/'),
-            'create' => Pages\CreateSource::route('/create'),
-            'edit' => Pages\EditSource::route('/{record}/edit'),
+            'index' => ListSources::route('/'),
+            'create' => CreateSource::route('/create'),
+            'edit' => EditSource::route('/{record}/edit'),
         ];
     }
 }
