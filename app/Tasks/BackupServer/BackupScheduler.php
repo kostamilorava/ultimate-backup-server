@@ -16,17 +16,19 @@ class BackupScheduler implements BackupSchedulerInterface
 
         $backupEnabled = app(GeneralSettings::class)->backupEnabled;
 
-        if (! $backupEnabled) {
+        // If there are pending backups, or backups in progress, do not schedule a new backup.
+        // Also, do not schedule a backup if the last backup was created more than 8 hours ago.
+        $pendingOrInProgressBackup = Backup::where('source_id', $source->id)
+            ->whereIn('status', ['pending', 'in_progress'])
+            ->where('created_at', '>=', Carbon::now()->subHours(8))
+            ->exists();
+
+        if (! $backupEnabled || $pendingOrInProgressBackup) {
             return false;
         }
 
         $shouldBeBackedUpByCron = (new CronExpression($source->cron_expression))->isDue(Carbon::now());
 
-        $pendingBackup = Backup::where([
-            'status' => 'pending',
-            'source_id' => $source->id,
-        ])->count();
-
-        return $shouldBeBackedUpByCron && ! $pendingBackup;
+        return $shouldBeBackedUpByCron;
     }
 }

@@ -210,7 +210,7 @@ class SourceResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\BackupsRelationManager::class,
         ];
     }
 
