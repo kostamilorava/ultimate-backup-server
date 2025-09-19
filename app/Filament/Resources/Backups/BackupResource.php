@@ -108,11 +108,11 @@ class BackupResource extends Resource
                 TextColumn::make('size_in_kb')
                     ->label('Size')
                     ->sortable()
-                    ->formatStateUsing(fn (int $state) => Number::fileSize($state, precision: 2)),
+                    ->formatStateUsing(fn (int $state) => Number::fileSize($state * 1024, precision: 2)),
                 TextColumn::make('real_size_in_kb')
                     ->label('Real Size')
                     ->sortable()
-                    ->formatStateUsing(fn (int $state) => Number::fileSize($state, precision: 2)),
+                    ->formatStateUsing(fn (int $state) => Number::fileSize($state * 1024, precision: 2)),
                 TextColumn::make('completed_at')
                     ->label('Completed At')
                     ->dateTime()
