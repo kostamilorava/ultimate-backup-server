@@ -94,13 +94,17 @@ class BackupResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
-                TextColumn::make('status')->sortable(),
+                TextColumn::make('status')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('destination.name')
                     ->label('Backup Destination')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('source.name')
                     ->label('Backup Source')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('disk_name')
                     ->label('Disk Name')
                     ->sortable(),
